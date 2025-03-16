@@ -1,8 +1,8 @@
 os: "linux"
 arch: "amd64"
 
-talos_version: v1.7.0
-talosctl_version: v1.7.5
+talos_version: v1.9.2
+talosctl_version: v1.9.5
 control_plane_ip: 192.168.1.41
 
 worker_1: 192.168.1.43
