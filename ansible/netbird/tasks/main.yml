@@ -1,0 +1,13 @@
+- name: Download netbird install script
+  get_url:
+    url: https://pkgs.netbird.io/install.sh
+    dest: /tmp/install_netbird.sh
+    mode: 0755
+
+- name: Run install script
+  shell: /tmp/install_netbird.sh
+  become: true
+
+- name: Join netbird network
+  shell: netbird up --setup-key "{{ netbird_setup_key }}"
+  become: true
