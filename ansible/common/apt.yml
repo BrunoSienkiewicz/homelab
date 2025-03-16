@@ -1,4 +1,4 @@
-- hosts: "*"
+- hosts: "debian"
   become: yes
   tasks:
     - name: apt
