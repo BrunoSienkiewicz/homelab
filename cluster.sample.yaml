@@ -61,7 +61,7 @@ cloudflare_domain: "bruno-sienkieiwcz.com"
 
 # -- API Token for Cloudflare with the 'Zone:DNS:Edit' and 'Account:Cloudflare Tunnel:Read' permissions
 #    (REQUIRED) (NOTE: See the README for information on creating this)
-cloudflare_token: ""
+cloudflare_token: "wJmrufSjak7yuYeb8Mj88oi26alrBliUDQm_OwSQ"
 
 # -- The Load balancer IP for the external ingress-nginx controller
 #    (REQUIRED) / (NOTE: Choose an unused IP in node_cidr)
