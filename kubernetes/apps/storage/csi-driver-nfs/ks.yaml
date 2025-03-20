@@ -6,11 +6,19 @@ metadata:
   name: &app csi-driver-nfs
   namespace: &namespace storage
 spec:
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   interval: 30m
   path: ./kubernetes/main/apps/storage/csi-driver-nfs/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
