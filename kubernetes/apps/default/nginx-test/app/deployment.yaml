@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        image: nginx:1.19.6
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: nfs
+            mountPath: /usr/share/nginx/html
+      volumes:
+        - name: nfs
+          persistentVolumeClaim:
+            claimName: nginx-test-pvc
