@@ -5,16 +5,8 @@ metadata:
   name: nfs-direct
 provisioner: nfs.csi.k8s.io
 parameters:
-  - name: server
-    valueFrom:
-      secretKeyRef:
-        name: nfs-secret
-        key: server
-  - name: share
-    valueFrom:
-      secretKeyRef:
-        name: nfs-secret
-        key: share
+  server: ${SECRET_NFS_SERVER}
+  share: ${SECRET_NFS_PATH}
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 # Note: The first two options are strictly for NFSv4.2
