@@ -6,3 +6,4 @@ resources:
   - ./helmrelease.yaml
   - ./helmrepo.yaml
   - ./storageclass.yaml
+  - ./secret.sops.yaml
