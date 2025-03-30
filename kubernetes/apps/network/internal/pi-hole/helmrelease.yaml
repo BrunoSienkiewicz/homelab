@@ -1,0 +1,62 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrepository-source-v1.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: mojo2600
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://mojo2600.github.io/pihole-kubernetes
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: pihole
+  namespace: network
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: pihole
+      version: "1.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: mojo2600
+        namespace: flux-system
+  values:
+    image:
+      tag: "2023.11.1"
+    serviceDns:
+      type: ClusterIP
+    persistentVolumeStorage:
+      enabled: true
+      storageClass: "nfs-direct"
+      accessModes:
+        - ReadWriteMany
+    env:
+      TZ: "Europe/Paris"
+      WEBPASSWORD:
+        secretKeyRef:
+          name: pihole-admin
+          key: password
+    dns:
+      forwardRules:
+        conditional:
+          - dest: "1.1.1.1#5053"
+            domains: []
+    ingress:
+      enabled: true
+      className: "internal"
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      hosts:
+        - host: "{{ .Release.Name }}.local.${SECRET_DOMAIN}"
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: pihole-tls
+          hosts:
+            - "{{ .Release.Name }}.local.${SECRET_DOMAIN}"
